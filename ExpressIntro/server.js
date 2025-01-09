@@ -2,13 +2,12 @@ const express = require('express');
 let mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-
 const app = express();
 const PORT = 3000;
 
 dotenv.config();
 
-mongoose.connect('mongodb+srv://rashadkhm:CfFWXy6v6hoCvizN@classwork.t9hvn.mongodb.net/')
+mongoose.connect(process.env.CONNECTION_STRING)
       .then(() => {
             console.log("connected");
       });
