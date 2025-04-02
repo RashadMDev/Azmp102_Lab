@@ -2,15 +2,14 @@ const express = require('express');
 let mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const connectDB = require('./db');
 const app = express();
 const PORT = 3000;
-
 dotenv.config();
+connectDB()
+app.use(cors());
+app.use(express.json());
 
-mongoose.connect(process.env.CONNECTION_STRING)
-      .then(() => {
-            console.log("connected");
-      });
 
 let itemSchema = new mongoose.Schema({
       name: String,
@@ -18,9 +17,6 @@ let itemSchema = new mongoose.Schema({
 });
 
 let ItemModel = mongoose.model("Item", itemSchema);
-
-app.use(cors());
-app.use(express.json());
 
 app.post('/api/items', async (req, res) => {
       console.log(req.body);
@@ -60,7 +56,6 @@ app.delete('/api/items/:id', async (req, res) => {
             res.status(400).json({ error: error.message });
       }
 });
-
 
 app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
